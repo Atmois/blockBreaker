@@ -86,8 +86,7 @@ function redraw() {
     ballY += ballVeloY * screenBlock;
 
     // Collision of Ball and Platform
-    if (ballX < platformX + screenBlock * 5 && ballX + screenBlock * 0.5 > platformX &&
-        ballY < platformY + screenBlock * 0.5 && ballY + screenBlock * 0.5 > platformY) {
+    if (ballX < platformX + screenBlock * 5 && ballX + screenBlock * 0.5 > platformX && ballY < platformY + screenBlock * 0.5 && ballY + screenBlock * 0.5 > platformY) {
 
         // Calculate Relative Position of Ball and Platform
         let intersecX = (platformX + (screenBlock * 2.5)) - (ballX + (screenBlock * 0.25));
@@ -110,8 +109,7 @@ function redraw() {
     // Collision with Blocks
     for (let i = 0; i < blocks.length; i++) {
         let block = blocks[i];
-        if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x &&
-            ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
+        if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
             ballVeloY = -ballVeloY;
             ballVeloX = -ballVeloX
             blocks.splice(i, 1);
