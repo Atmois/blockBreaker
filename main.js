@@ -173,9 +173,9 @@ function displayGameEnd(condition) {
         text = "You Win!";
     }
     // Game Over Text
-    var textWidth = ctx.measureText(text).width;
-    var x = (blockBreaker.width - textWidth) / 2;
-    var y = blockBreaker.height / 2;
+    const textWidth = ctx.measureText(text).width;
+    const x = (blockBreaker.width - textWidth) / 2;
+    const y = blockBreaker.height / 2;
     ctx.fillText(text, x, y);
 
     // Reset Button
@@ -203,7 +203,7 @@ function resetGame() {
     alive = true;
 
     // Hide Button
-    var resetButton = document.querySelector(".reset-button");
+    const resetButton = document.querySelector(".reset-button");
     if (resetButton) {
         resetButton.remove();
     }
