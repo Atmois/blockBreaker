@@ -122,7 +122,7 @@ function redraw() {
                     break
                 case "green":
                     score += 5
-                    brea
+                    breakk
                 case "yellow":
                     score += 10
                     break
