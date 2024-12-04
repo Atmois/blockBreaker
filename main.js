@@ -115,18 +115,22 @@ function redraw() {
             ballVeloY = -ballVeloY;
             ballVeloX = -ballVeloX
             blocks.splice(i, 1);
-            if (block.colour == "purple") {
-                score = score + 1
-            } else if (block.colour == "blue") {
-                score = score + 2
-            } else if (block.colour == "green") {
-                score = score + 5
-            } else if (block.colour == "yellow") {
-                score = score + 10
-            } else if (block.colour == "orange") {
-                score = score + 25
-            } else if (block.colour == "red") {
-                score = score + 50
+            switch (block.colour) {
+                case "purple":
+                    score += 1
+                case "blue":
+                    score += 2
+                case "green":
+                    score += 5
+                case "yellow":
+                    score += 10
+                    break
+                case "orange":
+                    score += 25
+                    break
+                case "red":
+                    score += 50
+                    break
             }
             scoreTxt.innerText = "Score: " + score;
             ballVeloCalc(Math.random() * 360 - 180);
@@ -143,49 +147,31 @@ function redraw() {
     // Death by Out of Bounds
     if (ballY > blockBreaker.height) {
         alive = false;
-        displayGameOver();
+        displayGameEnd(0);
         return;
     }
 
     // Win Condition
     if (blocks.length === 0) {
         alive = false
-        displayWin()
+        displayGameEnd(1)
         return
     }
 }
 
-// Popup for Player Death
-function displayGameOver() {
+// Popup for Game End
+function displayGameEnd(condition) {
     ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
 
-    // Game Over Text
     ctx.fillStyle = "black";
     ctx.font = "50px AtkinsonHyperlegible";
-    var text = "Game Over";
-    var textWidth = ctx.measureText(text).width;
-    var x = (blockBreaker.width - textWidth) / 2;
-    var y = blockBreaker.height / 2;
-    ctx.fillText(text, x, y);
 
-    // Reset Button
-    if (!document.querySelector(".reset-button")) {
-        var resetButton = document.createElement("button");
-        resetButton.innerText = "Reset";
-        resetButton.className = "button reset-button";
-        document.body.appendChild(resetButton);
-        resetButton.addEventListener("click", resetGame);
+    if (condition == 0) {
+        text = "Game Over";
+    } else if (condition == 1) {
+        text = "You Win!";
     }
-}
-
-// Popup for Player Win
-function displayWin() {
-    ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
-
-    // Win Text
-    ctx.fillStyle = "black";
-    ctx.font = "50px AtkinsonHyperlegible";
-    var text = "You Win!";
+    // Game Over Text
     var textWidth = ctx.measureText(text).width;
     var x = (blockBreaker.width - textWidth) / 2;
     var y = blockBreaker.height / 2;
@@ -210,9 +196,9 @@ function resetGame() {
     ballY = ((rows - 1) * screenBlock) - (0.5 * screenBlock);
     ballVeloX = Math.random() - 0.5;
     ballVeloY = -0.25;
-    ballVeloCalc(Math.random() * 360 - 180);
     score = 0;
     scoreTxt.innerText = "Score: " + score
+    ballVeloCalc(Math.random() * 360 - 180);
     alive = true;
 
     // Hide Button
