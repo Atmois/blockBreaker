@@ -248,7 +248,7 @@ function stopPlatform(e) {
 
 // Calculate Ball Velocity
 function ballVeloCalc(ballAngle) {
-    ballVeloMag = 0.05 + Math.floor(score / 25) * 0.005;
+    ballVeloMag = 0.1 + Math.floor(score / 30) * 0.005;
     ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
