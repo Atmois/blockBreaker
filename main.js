@@ -92,7 +92,7 @@ function redraw() {
         // Calculate Relative Position of Ball and Platform
         let intersecX = (platformX + (screenBlock * 2.5)) - (ballX + (screenBlock * 0.25));
         let normalIntersectX = (intersecX / (screenBlock * 2.5));
-        let bounceAngle = normalIntersectX * (Math.PI / 3); // Max Bounce Angle
+        let bounceAngle = -1 * normalIntersectX * (Math.PI / 3);
 
         // Update Ball Velocity
         ballVeloX = ballVeloMag * Math.sin(bounceAngle);
