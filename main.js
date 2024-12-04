@@ -118,10 +118,13 @@ function redraw() {
             switch (block.colour) {
                 case "purple":
                     score += 1
+                    break
                 case "blue":
                     score += 2
+                    break
                 case "green":
                     score += 5
+                    brea
                 case "yellow":
                     score += 10
                     break
@@ -253,7 +256,7 @@ function createBlocks() {
         for (let j = 0; j < 6; j++) {
             blocks.push({
                 x: i,
-                y: j * (screenBlock + blockSpacing) + screenBlock,
+                y: j * (screenBlock + blockSpacing) + 2 * screenBlock, // Adjusted y position
                 width: blockWidth,
                 height: screenBlock,
                 colour: colours[j % colours.length]
