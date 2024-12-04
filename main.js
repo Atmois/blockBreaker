@@ -24,7 +24,7 @@ var ballVeloMag;
 var ballAngle;
 
 // Misc
-var score = 0;
+var score = 1200;
 var alive = true;
 var blocks = [];
 
@@ -128,6 +128,7 @@ function redraw() {
                 score = score + 50
             }
             scoreTxt.innerText = "Score: " + score;
+            ballVeloCalc(Math.random() * 360 - 180); // Recalculate ball velocity
             break;
         }
     }
@@ -248,7 +249,7 @@ function stopPlatform(e) {
 
 // Calculate Ball Velocity
 function ballVeloCalc(ballAngle) {
-    ballVeloMag = 0.1 + Math.floor(score / 30) * 0.005;
+    ballVeloMag = 0.1 + Math.floor(score / 50) * 0.0045;
     ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
@@ -256,7 +257,7 @@ function ballVeloCalc(ballAngle) {
 // Draw the Blocks
 function createBlocks() {
     const colours = ["red", "orange", "yellow", "green", "blue", "purple"];
-    const blockWidth = screenBlock * 3;
+    const blockWidth = screenBlock * 1.8;
     const blockSpacing = screenBlock * 0.1;
 
     blocks = [];
