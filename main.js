@@ -24,7 +24,7 @@ var ballVeloMag;
 var ballAngle;
 
 // Misc
-var score = 1200;
+var score = 0;
 var alive = true;
 var blocks = [];
 
@@ -113,6 +113,7 @@ function redraw() {
         if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x &&
             ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
             ballVeloY = -ballVeloY;
+            ballVeloX = -ballVeloX
             blocks.splice(i, 1);
             if (block.colour == "purple") {
                 score = score + 1
@@ -128,7 +129,7 @@ function redraw() {
                 score = score + 50
             }
             scoreTxt.innerText = "Score: " + score;
-            ballVeloCalc(Math.random() * 360 - 180); // Recalculate ball velocity
+            ballVeloCalc(Math.random() * 360 - 180);
             break;
         }
     }
