@@ -153,11 +153,13 @@ function blockController() {
     for (let i = 0; i < blocks.length; i++) {
         let block = blocks[i];
         if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
-            if (ballX < block.x + block.width || ballX + screenBlock * 0.5 > block.x) {
-                ballVeloY = -ballVeloY
-            } else if (ballY < block.y + block.height || ballY + screenBlock * 0.5 > block.y) {
-                ballVeloX = -ballVeloX;
-            }
+            // if (ballX < block.x + block.width || ballX + screenBlock * 0.5 > block.x) {
+            //     ballVeloY = -ballVeloY
+            // } else if (ballY < block.y + block.height || ballY + screenBlock * 0.5 > block.y) {
+            //     ballVeloX = -ballVeloX;
+            // }
+            ballVeloY = -ballVeloY
+            ballVeloX = -ballVeloX;
             blocks.splice(i, 1);
             switch (block.colour) {
                 case "purple":
