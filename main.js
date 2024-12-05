@@ -76,7 +76,7 @@ function redraw() {
     ballController()
     blockController()
     gameEndController()
-    ballVeloCalc(ballVeloY * Math.atanh(ballVeloY / ballVeloX)); 
+    ballVeloCalc(0)
 }
 
 function platformController() {
@@ -267,6 +267,9 @@ function stopPlatform(e) {
 // Calculate Ball Velocity
 function ballVeloCalc(ballAngle) {
     ballVeloMag = 0.1 + Math.floor(score / 50) * 0.004;
+    if (ballAngle == 0) {
+        ballAngle = tanh(ballVeloY / ballVeloX); 
+    }
     ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
