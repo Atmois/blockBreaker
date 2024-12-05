@@ -182,6 +182,7 @@ function scoreCalc(blockColour) {
     }
     score += scoreMap[blockColour] || 0
     scoreTxt.innerText = "Score: " + score;
+    ballVeloCalc(ballAngle); 
 }
 
 // Popup for Game End
