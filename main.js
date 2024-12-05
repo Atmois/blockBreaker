@@ -7,7 +7,7 @@ let ctx;
 
 // Platform Position
 let platformX = ((columns * screenBlock) / 2) - (2.5 * screenBlock);
-let platformY = ((rows - 1) * screenBlock);
+const platformY = ((rows - 1) * screenBlock);
 
 // Platform Velocity
 let platformVelo = 0;
@@ -32,11 +32,9 @@ let blocks = [];
 let score = 0;
 let alive = true;
 
-
 window.onload = function () {
-    blockBreaker = document.getElementById("blockBreaker");
-    scoreTxt = document.getElementById("scoreTxt");
-    toggleViewModeButton = document.getElementById("toggleViewMode");
+    const blockBreaker = document.getElementById("blockBreaker");
+    const toggleViewModeButton = document.getElementById("toggleViewMode");
 
     resizeCanvas();
     ballVeloCalc(Math.random() * 360 - 180);
@@ -115,9 +113,9 @@ function ballController() {
     if (ballX < platformX + screenBlock * 5 && ballX + screenBlock * 0.5 > platformX && ballY < platformY + screenBlock * 0.5 && ballY + screenBlock * 0.5 > platformY) {
 
         // Calculate Relative Position of Ball and Platform
-        let intersecX = (platformX + (screenBlock * 2.5)) - (ballX + (screenBlock * 0.25));
-        let normalIntersectX = (intersecX / (screenBlock * 2.5));
-        let bounceAngle = -1 * normalIntersectX * (Math.PI / 3);
+        const intersecX = (platformX + (screenBlock * 2.5)) - (ballX + (screenBlock * 0.25));
+        const normalIntersectX = (intersecX / (screenBlock * 2.5));
+        const bounceAngle = -1 * normalIntersectX * (Math.PI / 3);
 
         // Update Ball Velocity
         ballVeloX = ballVeloMag * Math.sin(bounceAngle);
@@ -126,7 +124,7 @@ function ballController() {
 
         // Lowers Score on Collision
         if (score > 25) {
-            let decreaseScore = Math.ceil(score / 250)
+            const decreaseScore = Math.ceil(score / 250)
             score -= decreaseScore
             scoreTxt.innerText = "Score: " + score;
         }
@@ -145,10 +143,10 @@ function blockController() {
 
     // Collision with Blocks
     for (let i = 0; i < blocks.length; i++) {
-        let block = blocks[i];
+        const block = blocks[i];
         if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
-            let overlapX = Math.min(ballX + screenBlock * 0.5 - block.x, block.x + block.width - ballX);
-            let overlapY = Math.min(ballY + screenBlock * 0.5 - block.y, block.y + block.height - ballY);
+            const overlapX = Math.min(ballX + screenBlock * 0.5 - block.x, block.x + block.width - ballX);
+            const overlapY = Math.min(ballY + screenBlock * 0.5 - block.y, block.y + block.height - ballY);
             if (overlapX < overlapY) {
                 ballVeloX = -ballVeloX;
             } else {
@@ -162,7 +160,7 @@ function blockController() {
     }
 
     // Draw the blocks
-    for (let block of blocks) {
+    for (const block of blocks) {
         ctx.fillStyle = block.colour;
         ctx.fillRect(block.x, block.y, block.width, block.height);
     }
@@ -192,6 +190,7 @@ function displayGameEnd(condition) {
         ctx.fillStyle = "black"
     }
 
+    let text;
     if (condition == 0) {
         text = "Game Over";
     } else if (condition == 1) {
@@ -206,7 +205,7 @@ function displayGameEnd(condition) {
 
     // Reset Button
     if (!document.querySelector(".reset-button")) {
-        let resetButton = document.createElement("button");
+        const resetButton = document.createElement("button");
         resetButton.innerText = "Reset";
         resetButton.className = "button reset-button";
         document.body.appendChild(resetButton);
@@ -218,7 +217,6 @@ function displayGameEnd(condition) {
 function resetGame() {
     // Reset Specs
     platformX = ((columns * screenBlock) / 2) - (2.5 * screenBlock);
-    platformY = ((rows - 1) * screenBlock);
     ballX = ((columns * screenBlock) / 2);
     ballY = ((rows - 1) * screenBlock) - (0.5 * screenBlock);
     ballVeloX = Math.random() - 0.5;
