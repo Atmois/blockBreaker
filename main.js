@@ -76,7 +76,7 @@ function redraw() {
     ballController()
     blockController()
     gameEndController()
-    ballVeloCalc(ballVeloY * atanh(ballVeloY / ballVeloX)); 
+    ballVeloCalc(ballVeloY * Math.atanh(ballVeloY / ballVeloX)); 
 }
 
 function platformController() {
