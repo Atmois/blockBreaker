@@ -265,7 +265,7 @@ function stopPlatform(e) {
 function ballVeloCalc(ballAngle) {
     ballVeloMag = 0.1 + Math.floor(score / 50) * 0.004;
     if (ballAngle == 0) {
-        ballAngle = tanh(ballVeloY / ballVeloX); 
+        ballAngle = tanh(ballVeloY / ballVeloX);
     }
 
     if (Math.abs(ballAngle) < 30) {
