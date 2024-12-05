@@ -149,36 +149,40 @@ function ballController() {
 }
 
 function blockController() {
+    let collisionDetected = false;
+
     // Collision with Blocks
     for (let i = 0; i < blocks.length; i++) {
+        if (collisionDetected) break; 
+
         let block = blocks[i];
         if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
-            ballVeloY = -ballVeloY
+            ballVeloY = -ballVeloY;
             ballVeloX = -ballVeloX;
             blocks.splice(i, 1);
             switch (block.colour) {
                 case "purple":
-                    score += 1
-                    break
+                    score += 1;
+                    break;
                 case "blue":
-                    score += 2
-                    break
+                    score += 2;
+                    break;
                 case "green":
-                    score += 5
-                    break
+                    score += 5;
+                    break;
                 case "yellow":
-                    score += 10
-                    break
+                    score += 10;
+                    break;
                 case "orange":
-                    score += 25
-                    break
+                    score += 25;
+                    break;
                 case "red":
-                    score += 50
-                    break
+                    score += 50;
+                    break;
             }
             scoreTxt.innerText = "Score: " + score;
             ballVeloCalc(Math.random() * 360 - 180);
-            break;
+            collisionDetected = true;
         }
     }
 
@@ -192,6 +196,10 @@ function blockController() {
 // Popup for Game End
 function displayGameEnd(condition) {
     ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
+    for (let block of blocks) {
+        ctx.fillStyle = block.colour;
+        ctx.fillRect(block.x, block.y, block.width, block.height);
+    }
 
     ctx.fillStyle = "black";
     ctx.font = "50px AtkinsonHyperlegible";
