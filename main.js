@@ -76,6 +76,7 @@ function redraw() {
     ballController()
     blockController()
     gameEndController()
+    ballVeloCalc(ballVeloY * atanh(ballVeloY / ballVeloX)); 
 }
 
 function platformController() {
@@ -182,7 +183,6 @@ function scoreCalc(blockColour) {
     }
     score += scoreMap[blockColour] || 0
     scoreTxt.innerText = "Score: " + score;
-    ballVeloCalc(ballAngle); 
 }
 
 // Popup for Game End
