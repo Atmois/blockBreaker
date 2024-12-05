@@ -115,7 +115,7 @@ function ballController() {
         // Calculate Relative Position of Ball and Platform
         const intersecX = (platformX + (screenBlock * 2.5)) - (ballX + (screenBlock * 0.25));
         const normalIntersectX = (intersecX / (screenBlock * 2.5));
-        const bounceAngle = -1 * normalIntersectX * (1.04719);
+        const bounceAngle = -1 * normalIntersectX * (Math.PI / 3);
 
         // Update Ball Velocity
         ballVeloX = ballVeloMag * Math.sin(bounceAngle);
@@ -263,15 +263,15 @@ function stopPlatform(e) {
 function ballVeloCalc(ballAngle) {
     ballVeloMag = 0.1 + Math.floor(score / 50) * 0.004;
     if (ballAngle == 0) {
-        ballAngle = Math.tanh(ballVeloY / ballVeloX);
+        ballAngle = tanh(ballVeloY / ballVeloX);
     }
 
     if (Math.abs(ballAngle) < 30) {
         ballAngle = 30 * Math.sign(ballAngle);
     }
 
-    ballVeloX = ballVeloMag * Math.cos(ballAngle * 0.01745);
-    ballVeloY = ballVeloMag * Math.sin(ballAngle * 0.01745);
+    ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
+    ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
 
 // Draw the Blocks
