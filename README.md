@@ -1,4 +1,4 @@
-# dinoGame
+# Block Breaker
 
 Basic block breaker game based on Atari Breakout.
 
