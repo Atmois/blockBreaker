@@ -54,13 +54,17 @@ window.onload = function () {
 
 // Toggle View Mode
 function toggleViewModeHandler() {
-    document.body.classList.toggle("dark-mode");
+    const bodyClassList = document.body.classList;
+    bodyClassList.toggle("dark-mode");
 }
 
 // Resize for Screen Size
 function resizeCanvas() {
-    blockBreaker.width = Math.min(window.innerWidth, columns * screenBlock);
-    blockBreaker.height = Math.min(window.innerHeight, rows * screenBlock);
+    const maxWidth = columns * screenBlock;
+    const maxHeight = rows * screenBlock;
+
+    blockBreaker.width = Math.min(window.innerWidth, maxWidth);
+    blockBreaker.height = Math.min(window.innerHeight, maxHeight);
 }
 
 function redraw() {
@@ -69,11 +73,8 @@ function redraw() {
     ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
 
     platformController()
-
     ballController()
-
     blockController()
-
     gameEndController()
 }
 
@@ -83,24 +84,18 @@ function platformController() {
     ctx.fillRect(platformX, platformY, screenBlock * 5, screenBlock * 0.5);
 
     // Platform Movement
-    if ((platformX > 0 && platformVelo == -0.25) || (platformX + screenBlock * 5 < blockBreaker.width && platformVelo == 0.25)) {
-        platformX += platformVelo * screenBlock;
+    const isMovingLeft = platformX > 0 && platformVelo == -0.25;
+    const isMovingRight = platformX + screenBlock * 5 < blockBreaker.width && platformVelo == 0.25;
+
+    if (isMovingLeft || isMovingRight) {
+        platformX += platformVelo * screenBlock
     }
 }
 
 function gameEndController() {
-    // Death by Out of Bounds
-    if (ballY > blockBreaker.height) {
-        alive = false;
-        displayGameEnd(0);
-        return;
-    }
-
-    // Win Condition
-    if (blocks.length === 0) {
+    if (ballY > blockBreaker.height || blocks.length === 0) {
         alive = false
-        displayGameEnd(1)
-        return
+        displayGameEnd(blocks.length === 0 ? 1 : 0)
     }
 }
 
@@ -177,34 +172,27 @@ function blockController() {
 
 // Calculate and Update Score
 function scoreCalc(blockColour) {
-    switch (blockColour) {
-        case "purple":
-            score += 1;
-            break;
-        case "blue":
-            score += 2;
-            break;
-        case "green":
-            score += 5;
-            break;
-        case "yellow":
-            score += 10;
-            break;
-        case "orange":
-            score += 25;
-            break;
-        case "red":
-            score += 50;
-            break;
+    const scoreMap = {
+        "purple": 1,
+        "blue": 2,
+        "green": 5,
+        "yellow": 10,
+        "orange": 25,
+        "red": 50
     }
+    score += scoreMap[blockColour] || 0
     scoreTxt.innerText = "Score: " + score;
 }
 
 // Popup for Game End
 function displayGameEnd(condition) {
-
-    ctx.fillStyle = "black";
     ctx.font = "50px AtkinsonHyperlegible";
+
+    if (document.body.classList.contains("dark-mode")) {
+        ctx.fillStyle = "azure";
+    } else if (!document.body.classList.contains("dark-mode")) {
+        ctx.fillStyle = "black"
+    }
 
     if (condition == 0) {
         text = "Game Over";
