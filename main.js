@@ -102,11 +102,8 @@ function gameEndController() {
 
 function ballController() {
     // Draw the Ball
-    if (document.body.classList.contains("dark-mode")) {
-        ctx.fillStyle = "azure";
-    } else if (!document.body.classList.contains("dark-mode")) {
-        ctx.fillStyle = "lightslategrey"
-    }
+    ctx.fillStyle = document.body.classList.contains("dark-mode") ? "azure" : "lightslategrey";
+    ctx.fillRect(ballX, ballY, screenBlock * 0.5, screenBlock * 0.5);
 
     ctx.fillRect(ballX, ballY, screenBlock * 0.5, screenBlock * 0.5);
 
@@ -270,6 +267,11 @@ function ballVeloCalc(ballAngle) {
     if (ballAngle == 0) {
         ballAngle = tanh(ballVeloY / ballVeloX); 
     }
+
+    if (Math.abs(ballAngle) < 30) {
+        ballAngle = 30 * Math.sign(ballAngle);
+    }
+
     ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
