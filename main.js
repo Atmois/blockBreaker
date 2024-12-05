@@ -10,8 +10,7 @@ let platformX = ((columns * screenBlock) / 2) - (2.5 * screenBlock);
 let platformY = ((rows - 1) * screenBlock);
 
 // Platform Velocity
-let platformVeloX = 0;
-let platformVeloY = 0;
+let platformVelo = 0;
 
 // Ball Position
 let ballX = ((columns * screenBlock) / 2);
@@ -84,8 +83,8 @@ function platformController() {
     ctx.fillRect(platformX, platformY, screenBlock * 5, screenBlock * 0.5);
 
     // Platform Movement
-    if ((platformX > 0 && platformVeloX == -0.25) || (platformX + screenBlock * 5 < blockBreaker.width && platformVeloX == 0.25)) {
-        platformX += platformVeloX * screenBlock;
+    if ((platformX > 0 && platformVelo == -0.25) || (platformX + screenBlock * 5 < blockBreaker.width && platformVelo == 0.25)) {
+        platformX += platformVelo * screenBlock;
     }
 }
 
@@ -153,36 +152,19 @@ function blockController() {
 
     // Collision with Blocks
     for (let i = 0; i < blocks.length; i++) {
-        if (collisionDetected) break; 
-
         let block = blocks[i];
         if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
-            ballVeloY = -ballVeloY;
-            ballVeloX = -ballVeloX;
-            blocks.splice(i, 1);
-            switch (block.colour) {
-                case "purple":
-                    score += 1;
-                    break;
-                case "blue":
-                    score += 2;
-                    break;
-                case "green":
-                    score += 5;
-                    break;
-                case "yellow":
-                    score += 10;
-                    break;
-                case "orange":
-                    score += 25;
-                    break;
-                case "red":
-                    score += 50;
-                    break;
+            let overlapX = Math.min(ballX + screenBlock * 0.5 - block.x, block.x + block.width - ballX);
+            let overlapY = Math.min(ballY + screenBlock * 0.5 - block.y, block.y + block.height - ballY);
+            if (overlapX < overlapY) {
+                ballVeloX = -ballVeloX;
+            } else {
+                ballVeloY = -ballVeloY;
             }
-            scoreTxt.innerText = "Score: " + score;
-            ballVeloCalc(Math.random() * 360 - 180);
+            blocks.splice(i, 1);
+            scoreCalc(block.colour);
             collisionDetected = true;
+            break;
         }
     }
 
@@ -193,13 +175,33 @@ function blockController() {
     }
 }
 
+// Calculate and Update Score
+function scoreCalc(blockColour) {
+    switch (blockColour) {
+        case "purple":
+            score += 1;
+            break;
+        case "blue":
+            score += 2;
+            break;
+        case "green":
+            score += 5;
+            break;
+        case "yellow":
+            score += 10;
+            break;
+        case "orange":
+            score += 25;
+            break;
+        case "red":
+            score += 50;
+            break;
+    }
+    scoreTxt.innerText = "Score: " + score;
+}
+
 // Popup for Game End
 function displayGameEnd(condition) {
-    ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
-    for (let block of blocks) {
-        ctx.fillStyle = block.colour;
-        ctx.fillRect(block.x, block.y, block.width, block.height);
-    }
 
     ctx.fillStyle = "black";
     ctx.font = "50px AtkinsonHyperlegible";
@@ -255,10 +257,10 @@ function resetGame() {
 function movePlatform(e) {
     switch (e.code) {
         case "ArrowLeft":
-            platformVeloX = -0.25;
+            platformVelo = -0.25;
             break;
         case "ArrowRight":
-            platformVeloX = 0.25;
+            platformVelo = 0.25;
             break;
     }
 }
@@ -268,7 +270,7 @@ function stopPlatform(e) {
     switch (e.code) {
         case "ArrowLeft":
         case "ArrowRight":
-            platformVeloX = 0;
+            platformVelo = 0;
             break;
     }
 }
