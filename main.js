@@ -262,9 +262,9 @@ function stopPlatform(e) {
 // Calculate Ball Velocity
 function ballVeloCalc(ballAngle) {
     ballVeloMag = 0.1 + Math.floor(score / 50) * 0.004;
-    
+
     if (ballAngle === 0) {
-        ballAngle = Math.atan2(ballVeloY, ballVeloX) * (180 / Math.PI); 
+        ballAngle = Math.atan2(ballVeloY, ballVeloX) * (180 / Math.PI);
     }
 
     if (Math.abs(ballAngle) < 30) {
@@ -274,7 +274,6 @@ function ballVeloCalc(ballAngle) {
     ballVeloX = ballVeloMag * Math.cos(ballAngle * Math.PI / 180);
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
-
 
 // Draw the Blocks
 function createBlocks() {
