@@ -1,7 +1,7 @@
 {
-  "name": "blockbreaker",
+  "name": "blocbreaker",
   "version": "1.0.0",
-  "description": "Basic block breaker game based on Atari Breakout.",
+  "description": "Basic bloc breaker game based on Atari Breakout.",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

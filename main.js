@@ -22,25 +22,25 @@ let ballVeloY;
 let ballVeloMag;
 let ballAngle;
 
-// Block Specs
+// Bloc Specs
 const colours = ["red", "orange", "yellow", "green", "blue", "purple"];
-const blockWidth = screenBlock * 1.2;
-const blockSpacing = screenBlock * 0.1;
-let blocks = [];
+const blocWidth = screenBlock * 1.2;
+const blocSpacing = screenBlock * 0.1;
+let blocs = [];
 
 // Misc
 let score = 0;
 let alive = true;
 
 window.onload = function () {
-    const blockBreaker = document.getElementById("blockBreaker");
+    const blocBreaker = document.getElementById("blocBreaker");
     const toggleViewModeButton = document.getElementById("toggleViewMode");
 
     resizeCanvas();
     ballVeloCalc(Math.random() * 360 - 180);
-    ctx = blockBreaker.getContext("2d");
+    ctx = blocBreaker.getContext("2d");
 
-    createBlocks();
+    createBlocs();
 
     document.addEventListener("keydown", movePlatform);
     document.addEventListener("keyup", stopPlatform);
@@ -61,18 +61,18 @@ function resizeCanvas() {
     const maxWidth = columns * screenBlock;
     const maxHeight = rows * screenBlock;
 
-    blockBreaker.width = Math.min(window.innerWidth, maxWidth);
-    blockBreaker.height = Math.min(window.innerHeight, maxHeight);
+    blocBreaker.width = Math.min(window.innerWidth, maxWidth);
+    blocBreaker.height = Math.min(window.innerHeight, maxHeight);
 }
 
 function redraw() {
     if (!alive) return;
 
-    ctx.clearRect(0, 0, blockBreaker.width, blockBreaker.height);
+    ctx.clearRect(0, 0, blocBreaker.width, blocBreaker.height);
 
     platformController()
     ballController()
-    blockController()
+    blocController()
     gameEndController()
     ballVeloCalc(0)
 }
@@ -84,7 +84,7 @@ function platformController() {
 
     // Platform Movement
     const isMovingLeft = platformX > 0 && platformVelo == -0.25;
-    const isMovingRight = platformX + screenBlock * 5 < blockBreaker.width && platformVelo == 0.25;
+    const isMovingRight = platformX + screenBlock * 5 < blocBreaker.width && platformVelo == 0.25;
 
     if (isMovingLeft || isMovingRight) {
         platformX += platformVelo * screenBlock
@@ -92,9 +92,9 @@ function platformController() {
 }
 
 function gameEndController() {
-    if (ballY > blockBreaker.height || blocks.length === 0) {
+    if (ballY > blocBreaker.height || blocs.length === 0) {
         alive = false
-        displayGameEnd(blocks.length === 0 ? 1 : 0)
+        displayGameEnd(blocs.length === 0 ? 1 : 0)
     }
 }
 
@@ -133,41 +133,41 @@ function ballController() {
     // Reflect off Ceiling and Walls
     if (ballY <= 0) {
         ballVeloY = -ballVeloY;
-    } else if (ballX <= 0 || ballX >= (blockBreaker.width - 0.75 * screenBlock)) {
+    } else if (ballX <= 0 || ballX >= (blocBreaker.width - 0.75 * screenBlock)) {
         ballVeloX = -ballVeloX;
     }
 }
 
-function blockController() {
+function blocController() {
     let collisionDetected = false;
 
-    // Collision with Blocks
-    for (let i = 0; i < blocks.length; i++) {
-        const block = blocks[i];
-        if (ballX < block.x + block.width && ballX + screenBlock * 0.5 > block.x && ballY < block.y + block.height && ballY + screenBlock * 0.5 > block.y) {
-            const overlapX = Math.min(ballX + screenBlock * 0.5 - block.x, block.x + block.width - ballX);
-            const overlapY = Math.min(ballY + screenBlock * 0.5 - block.y, block.y + block.height - ballY);
+    // Collision with Blocs
+    for (let i = 0; i < blocs.length; i++) {
+        const bloc = blocs[i];
+        if (ballX < bloc.x + bloc.width && ballX + screenBlock * 0.5 > bloc.x && ballY < bloc.y + bloc.height && ballY + screenBlock * 0.5 > bloc.y) {
+            const overlapX = Math.min(ballX + screenBlock * 0.5 - bloc.x, bloc.x + bloc.width - ballX);
+            const overlapY = Math.min(ballY + screenBlock * 0.5 - bloc.y, bloc.y + bloc.height - ballY);
             if (overlapX < overlapY) {
                 ballVeloX = -ballVeloX;
             } else {
                 ballVeloY = -ballVeloY;
             }
-            blocks.splice(i, 1);
-            scoreCalc(block.colour);
+            blocs.splice(i, 1);
+            scoreCalc(bloc.colour);
             collisionDetected = true;
             break;
         }
     }
 
-    // Draw the blocks
-    for (const block of blocks) {
-        ctx.fillStyle = block.colour;
-        ctx.fillRect(block.x, block.y, block.width, block.height);
+    // Draw the Blocs
+    for (const bloc of blocs) {
+        ctx.fillStyle = bloc.colour;
+        ctx.fillRect(bloc.x, bloc.y, bloc.width, bloc.height);
     }
 }
 
 // Calculate and Update Score
-function scoreCalc(blockColour) {
+function scoreCalc(blocColour) {
     const scoreMap = {
         "purple": 1,
         "blue": 2,
@@ -176,7 +176,7 @@ function scoreCalc(blockColour) {
         "orange": 25,
         "red": 50
     }
-    score += scoreMap[blockColour] || 0
+    score += scoreMap[blocColour] || 0
     scoreTxt.innerText = "Score: " + score;
 }
 
@@ -199,8 +199,8 @@ function displayGameEnd(condition) {
 
     // Game Over Text
     const textWidth = ctx.measureText(text).width;
-    const x = (blockBreaker.width - textWidth) / 2;
-    const y = blockBreaker.height / 2;
+    const x = (blocBreaker.width - textWidth) / 2;
+    const y = blocBreaker.height / 2;
     ctx.fillText(text, x, y);
 
     // Reset Button
@@ -233,7 +233,7 @@ function resetGame() {
     }
 
     // Redraw the Game
-    createBlocks();
+    createBlocs();
     redraw();
 }
 
@@ -275,16 +275,16 @@ function ballVeloCalc(ballAngle) {
     ballVeloY = ballVeloMag * Math.sin(ballAngle * Math.PI / 180);
 }
 
-// Draw the Blocks
-function createBlocks() {
-    blocks = [];
+// Draw the Blocs
+function createBlocs() {
+    blocs = [];
 
-    for (let i = screenBlock; i < (blockBreaker.width - blockWidth); i += blockWidth + blockSpacing) {
+    for (let i = screenBlock; i < (blocBreaker.width - blocWidth); i += blocWidth + blocSpacing) {
         for (let j = 0; j < 6; j++) {
-            blocks.push({
+            blocs.push({
                 x: i,
-                y: j * (screenBlock + blockSpacing) + 2 * screenBlock,
-                width: blockWidth,
+                y: j * (screenBlock + blocSpacing) + 2 * screenBlock,
+                width: blocWidth,
                 height: screenBlock,
                 colour: colours[j % colours.length]
             });
